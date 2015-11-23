@@ -16,7 +16,7 @@ import java.net.URL;
  * Created by romanismagilov on 23.11.15.
  */
 public class MyTask extends AsyncTask {
-
+    MainActivity activity;
     String responseString;
     @Override
     protected void onPreExecute() {
@@ -29,7 +29,8 @@ public class MyTask extends AsyncTask {
     @Override
     protected Object doInBackground(Object[] params) {
         try {
-            URL url = new URL((String) params[0]);
+            activity = (MainActivity)params[0];
+            URL url = new URL((String) params[1]);
             HttpURLConnection connection = (HttpURLConnection)url.openConnection();
             connection.setRequestMethod("GET");
             connection.connect();
@@ -56,7 +57,7 @@ public class MyTask extends AsyncTask {
             String result = "";
             result += "$= "+rate.getJSONObject(0).get("Rate")+ " p.\n";
             result += "EUR= "+rate.getJSONObject(1).get("Rate")+ " p.\n";
-            MainActivity.instance.onCurrenciesLoaded(result);
+            activity.onCurrenciesLoaded(result);
 
         }
         catch (Exception e){
